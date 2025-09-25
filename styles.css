@@ -69,6 +69,19 @@ img {
     padding: 0 20px;
 }
 
+/* Screen-reader only utility */
+.sr-only {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* ===========================
    FLOATING THEME TOGGLE
    =========================== */
@@ -117,43 +130,51 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 0;
+    padding: 5px 0;
 }
 
+/* Brand + Logo */
 .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0;
     font-weight: 800;
     letter-spacing: .3px
 }
 
-/* Brand logo box supports SVG or IMG and keeps padding on mobile */
 .brand-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, var(--brand), var(--accent-2));
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    /* clip oversized logos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    /* bigger logo */
+    width: auto;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    padding: 0;
 }
 
-.brand-logo img {
-    width: 100%;
-    height: 100%;
+.brand-logo .brand-img {
+    max-height: 150px;
+    /* match above */
+    height: 150px;
+    width: auto;
     object-fit: contain;
-    /* any logo size fits */
-    border-radius: 10px;
+    display: block;
+    margin-bottom: 25px;
 }
 
-.brand span {
-    font-family: Rajdhani, Inter, sans-serif;
-    font-size: 1.25rem
+@media (hover:hover) {
+    .brand:hover .brand-img {
+        filter: brightness(1.05);
+    }
 }
 
+
+
+/* Nav links */
 .nav-links {
     display: flex;
     gap: 18px;
@@ -178,33 +199,17 @@ header {
     font-weight: 700;
     background: linear-gradient(135deg, var(--brand), var(--accent-2));
     box-shadow: var(--shadow);
-    border: 1px solid transparent;
-    /* allow hover border change in light mode */
     color: #061018;
-    /* default text color (light theme) */
 }
 
-/* Darker CTA text for dark mode on desktop for better contrast */
+/* Darker text in dark mode (desktop only) */
 body.theme-dark .cta-small {
-    color: #0a0a0a;
+    color: #0b0f14;
 }
 
-@media (min-width: 901px) {
-    .cta-small {
-        color: #061018;
-    }
-
-    /* light default */
-    body.theme-dark .cta-small {
-        color: #0a0a0a;
-    }
-
-    /* darker in dark mode desktop */
-}
-
-/* Light mode: add black border on hover for accessibility */
+/* Light mode hover border for accessibility */
 body.theme-light .cta-small:hover {
-    border-color: #000;
+    border: 2px solid #000;
 }
 
 .menu-btn {
@@ -214,7 +219,7 @@ body.theme-light .cta-small:hover {
     color: var(--text)
 }
 
-/* Ensure mobile menu is hidden by default (desktop & mobile) */
+/* Mobile menu */
 .mobile-menu {
     display: none;
     position: absolute;
@@ -224,13 +229,7 @@ body.theme-light .cta-small:hover {
     z-index: 50;
 }
 
-/* Mobile-only nav behaviors + extra side padding for logo area */
 @media (max-width: 900px) {
-    .container {
-        padding-inline: 24px;
-    }
-
-    /* more breathing room near screen edge */
     .nav-links {
         display: none
     }
@@ -258,6 +257,11 @@ body.theme-light .cta-small:hover {
     .mobile-menu a:hover {
         background: color-mix(in srgb, var(--brand) 8%, transparent);
         color: var(--text)
+    }
+
+    /* More comfy side padding on mobile so logo isn’t glued to the edge */
+    .container {
+        padding-inline: 24px;
     }
 }
 
@@ -345,23 +349,24 @@ body.theme-light .cta-small:hover {
 
 .hero-media {
     position: relative;
+    min-height: 360px;
     border-radius: var(--radius);
     background: var(--surface);
     border: 1px solid var(--border);
     overflow: hidden;
     box-shadow: var(--shadow);
-    aspect-ratio: 16/10;
-    /* keeps a nice frame, image fills regardless of its natural size */
 }
 
 .hero-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* fill container */
     display: block;
+    aspect-ratio: 16/10;
 }
 
-/* MOBILE: text above image + extra side padding for hero text */
+/* Mobile adjustments */
 @media (max-width: 980px) {
     .hero-wrap {
         grid-template-columns: 1fr;
@@ -370,7 +375,7 @@ body.theme-light .cta-small:hover {
 
     .hero-copy {
         order: 1;
-        padding-inline: 18px;
+        padding-inline: 12px;
     }
 
     .hero-media {
@@ -380,7 +385,7 @@ body.theme-light .cta-small:hover {
 
 @media (max-width: 520px) {
     .hero-copy {
-        padding-inline: 20px;
+        padding-inline: 18px;
     }
 }
 
@@ -426,7 +431,7 @@ section {
     }
 }
 
-/* Projects media helper */
+/* Projects media */
 .project-media {
     margin-top: 12px;
     border-radius: 12px;
